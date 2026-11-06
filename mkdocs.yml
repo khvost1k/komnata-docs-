@@ -1,0 +1,20 @@
+# Конфигурация сайта документации komnata
+site_name: Документация komnata
+docs_dir: docs                  # папка с исходными страницами
+site_dir: site                  # папка, куда складывается собранный сайт
+
+nav:                            # меню сайта: подпись -> файл
+  - Главная: index.md
+  - Установка: install.md
+  - Настройка: configuration.md
+  - Работа с сервисом: usage.md
+  - Вопросы и ответы: faq.md
+
+theme:
+  name: material                # тема Material for MkDocs
+  language: ru                  # язык интерфейса: поиск, подписи кнопок
+
+markdown_extensions:
+  - admonition                  # примечания вида !!! note
+  - toc:
+      permalink: true           # якорные ссылки у заголовков

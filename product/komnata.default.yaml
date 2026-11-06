@@ -1,0 +1,11 @@
+# Конфигурация по умолчанию, komnata 2.0.0
+host: 127.0.0.1
+port: 8000
+database: ./komnata.db
+
+booking:
+  max_duration_hours: 4      # максимальная длительность одной брони, ч
+  allow_weekends: false      # разрешить бронирование в субботу и воскресенье
+
+notifications:
+  email_enabled: false       # отправлять подтверждения брони на почту

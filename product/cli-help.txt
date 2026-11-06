@@ -1,0 +1,17 @@
+$ komnata --help
+
+komnata 2.0.0 — сервис бронирования переговорных комнат
+
+Использование:
+  komnata serve [--config PATH] [--background]
+  komnata check-config [--config PATH]
+  komnata version
+
+Команды:
+  serve          запустить сервис
+  check-config   проверить файл конфигурации и завершить работу
+  version        показать версию
+
+Параметры:
+  --config PATH  путь к файлу конфигурации (по умолчанию ./komnata.yaml)
+  --background   запустить сервис в фоновом режиме

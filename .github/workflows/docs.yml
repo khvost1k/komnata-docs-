@@ -1,0 +1,48 @@
+# Конвейер документации:
+# на каждый пул-реквест — сборка и проверки, после слияния в main — публикация на GitHub Pages.
+name: docs
+
+on:
+  pull_request:                       # проверять каждый пул-реквест
+  push:
+    branches: [main]                  # собирать и публиковать после слияния в main
+  workflow_dispatch:                  # разрешить ручной запуск со вкладки Actions
+
+permissions:
+  contents: read                      # читать репозиторий
+  pages: write                        # публиковать сайт
+  id-token: write                     # подтверждать подлинность при публикации
+
+jobs:
+  build:                              # этап 1: проверки и сборка
+    runs-on: ubuntu-latest            # временная виртуальная машина с Linux
+    steps:
+      - uses: actions/checkout@v7     # скачать содержимое репозитория
+
+      - uses: actions/setup-python@v7 # установить Python
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt   # MkDocs и тема с зафиксированными версиями
+
+      # ЗАДАНИЕ 2: добавьте здесь шаг проверки текста линтером Vale
+
+      - run: mkdocs build             # ЗАДАНИЕ 2: включите строгий режим сборки
+
+      - uses: actions/upload-pages-artifact@v5   # упаковать папку site/ как артефакт сборки
+        with:
+          path: site
+
+  deploy:                             # этап 2: публикация
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build                      # только если сборка прошла успешно
+    runs-on: ubuntu-latest
+    concurrency:                      # не публиковать две версии одновременно
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5 # опубликовать артефакт на GitHub Pages
